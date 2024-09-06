@@ -20,7 +20,7 @@ def test_add_new_user(set_up_tear_down) -> None:
     dashboard_page.user_role_status()
     data = {'username': 'playwright', 'password': 'Qwerty@123', 'confirm': 'Qwerty@123'}
     dashboard_page.user_name_password_confirm(data)
-    dashboard_page.employee_name()
+    dashboard_page.employee_name("Name")
     dashboard_page.save_button()
 #/******************************************************
 #Test Scenario 2: User Management Search

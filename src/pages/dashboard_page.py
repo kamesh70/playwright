@@ -1,28 +1,27 @@
 import time
+from src.locators import DashboardPageLocators, AddNewUserLocators
 
-import pytest
 
 class DashBoardPage:
 
     def __init__(self,page):
         self.page =page
-        self.dashboard_header = page.locator("h6:has-text('Dashboard')")
-        self.dashboard_user_name = page.locator("//span[@class='oxd-userdropdown-tab']/p")
-        self.search_locator = page.get_by_placeholder("Search")
-        self.search_item = page.locator("//span[@class='oxd-text oxd-text--span oxd-main-menu-item--name']")
-        self.search_headers = page.locator("//span[@class='oxd-topbar-header-breadcrumb']/h6")
-        self.add_new_user = page.locator("//button[@class='oxd-button oxd-button--medium oxd-button--secondary']")
-        self.user_role = page.locator("//div[@class='oxd-select-text oxd-select-text--active']").nth(0)
-        self.status = page.locator("//div[@class='oxd-select-text oxd-select-text--active']").nth(1)
-        self.select_admin_option = page.locator("div[role='listbox'].oxd-select-dropdown div:has-text('Admin')")
-        self.select_enable_option = page.locator("div[role='listbox'].oxd-select-dropdown div:has-text('Enabled')")
-        self.emp_name= page.get_by_placeholder("Type for hints...")
+        self.dashboard_header = page.locator(DashboardPageLocators.dashboard_header)
+        self.dashboard_user_name = page.locator(DashboardPageLocators.dashboard_user_name)
+        self.search_locator = page.get_by_placeholder(DashboardPageLocators.search_locator)
+        self.search_item = page.locator(DashboardPageLocators.search_item)
+        self.search_headers = page.locator(DashboardPageLocators.search_headers)
+        self.add_new_user = page.locator(DashboardPageLocators.add_new_user)
+        self.user_role = page.locator(DashboardPageLocators.user_role).nth(0)
+        self.status = page.locator(DashboardPageLocators.status).nth(1)
+        self.select_admin_option = page.locator(DashboardPageLocators.select_admin_option)
+        self.select_enable_option = page.locator(DashboardPageLocators.select_enable_option)
+        self.emp_name= page.get_by_placeholder(DashboardPageLocators.emp_name)
 
-        self.username = page.locator("input[class='oxd-input oxd-input--active']").nth(1)
-        self.password_input = page.locator("input[type='password']").nth(0)
-        self.confirm_password = page.locator("input[type='password']").nth(1)
-
-        self.save =page.get_by_role("button", name="Save")
+        self.username = page.locator(DashboardPageLocators.username).nth(1)
+        self.password_input = page.locator(DashboardPageLocators.password_input).nth(0)
+        self.confirm_password = page.locator(DashboardPageLocators.confirm_password).nth(1)
+        self.save =page.get_by_role(DashboardPageLocators.save_button_role, name=DashboardPageLocators.save_button_name)
 
     def dashboard_header(self):
         return self.dashboard_header
@@ -43,10 +42,10 @@ class DashBoardPage:
     def enter_confirm_password(self,c_pass):
         self.confirm_password.fill(c_pass)
 
-    def employee_name(self):
-        self.page.get_by_placeholder("Type for hints...").fill("Name")
-        self.page.wait_for_selector("div[role='listbox'].oxd-autocomplete-dropdown")
-        self.page.locator("div[role='listbox'].oxd-autocomplete-dropdown div:has-text('FName Mname LName')").click()
+    def employee_name(self,value):
+        self.page.get_by_placeholder(AddNewUserLocators.Username_input).fill(value)
+        self.page.wait_for_selector(AddNewUserLocators.wait_input_name)
+        self.page.locator(AddNewUserLocators.select_Name).click()
 
 
     def user_role_status(self):

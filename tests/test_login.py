@@ -32,9 +32,7 @@ def test_login_with_invalid_user(set_up_tear_down) -> None:
     login_page.enter_password('123')
     login_page.enter_username('4323423')
     login_page.click_login()
-    error_msg = page.locator("//div[@class='oxd-alert-content oxd-alert-content--error']/p")
-    error_text ="Invalid credentials"
-    expect(error_msg).to_have_text(error_text)
+    login_page.Login_error()
 
 
 

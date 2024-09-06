@@ -1,15 +1,18 @@
 from playwright.sync_api import Page, sync_playwright, expect
 
 from src.pages.dashboard_page import DashBoardPage
+from src.locators import LoginPageLocators
 
 
 class LoginPage:
 
     def __init__(self,page):
         self.page = page
-        self.username = page.get_by_placeholder("Username")
-        self.password = page.get_by_placeholder("Password")
-        self.login_btn = page.get_by_role("button", name="Login")
+        self.username = page.get_by_placeholder(LoginPageLocators.USERNAME_FIELD)
+        self.password = page.get_by_placeholder(LoginPageLocators.Password_FIELD)
+        self.login_btn = page.get_by_role(LoginPageLocators.Login_button_role, name=LoginPageLocators.Login_button_name)
+        self.Login_error_msg = page.locator(LoginPageLocators.error_msg)
+
 
 
     def enter_username(self,u_name):
@@ -23,9 +26,14 @@ class LoginPage:
     def click_login(self):
         self.login_btn.click()
 
+    def Login_error(self):
+        var=self.Login_error_msg
+        error_text = "Invalid credentials"
+        expect(var).to_have_text(error_text)
+
+
     def login_board(self, credentials: dict):
         try:
-            # self.page.wait_for_load_state("networkidle")
             self.enter_username(credentials['username'])
             self.enter_password(credentials['password'])
             self.click_login()
@@ -34,7 +42,7 @@ class LoginPage:
         except Exception as e:
             self.page.screenshot(path="element_screenshot.png")
             print(f"An error occurred during login: {e}")
-            raise  # Optionally re-raise the exception to fail the test
+            raise
 
 
     def login(self,credentials:dict ):
