@@ -3,17 +3,18 @@ import time
 
 from src.pages.login_page import LoginPage
 from src.pages.dashboard_page import  DashBoardPage
-from tests.configtest import set_up_tear_down
+from tests.configtest import set_up_tear_down, logged_in_page
+
 
 #/********************************
 #Test Scenario 3:Add to new user
 #/********************************
-def test_add_new_user(set_up_tear_down) -> None:
-    page = set_up_tear_down
-    login_page = LoginPage(page)  # create LoginPage object
-    credentials = {'username': 'Admin', 'password': 'admin123'}
-    login_page.login(credentials)
-    page.wait_for_load_state('networkidle')
+def test_add_new_user(logged_in_page) -> None:
+    page = logged_in_page
+    # login_page = LoginPage(page)  # create LoginPage object
+    # credentials = {'username': 'Admin', 'password': 'admin123'}
+    # login_page.login(credentials)
+    # page.wait_for_load_state('networkidle')
     dashboard_page = DashBoardPage(page)
     dashboard_page.search_click("Admin")
     dashboard_page.new_user()
@@ -22,14 +23,12 @@ def test_add_new_user(set_up_tear_down) -> None:
     dashboard_page.user_name_password_confirm(data)
     dashboard_page.employee_name("Name")
     dashboard_page.save_button()
+
 #/******************************************************
 #Test Scenario 2: User Management Search
 #/******************************************************
-def test_search_keyword(set_up_tear_down)-> None:
-    page = set_up_tear_down
-    login_obj = LoginPage(page)
-    credentials = {'username': 'Admin', 'password': 'admin123'}
-    login_obj.login(credentials)
+def test_search_keyword(logged_in_page)-> None:
+    page = logged_in_page
     time.sleep(3)
     page.get_by_placeholder("Search").fill("Admin")
     time.sleep(1)
